@@ -1,0 +1,2 @@
+# python-trainning
+Learning Python
