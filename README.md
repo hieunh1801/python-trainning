@@ -1,2 +1,0 @@
-# python-trainning
-Learning Python
