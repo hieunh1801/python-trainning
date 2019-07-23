@@ -1,0 +1,244 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger REST Article
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /login: 
+    ##### Login #####
+    put:
+      operationId: controllers.user.login
+      tags:
+        - Login && Logout
+      summary: Login
+      description: Login
+      parameters:
+      - name: account
+        in: body
+        description: account
+        required: True
+        schema:
+          type: object
+          properties:
+            username:         
+              type: string
+            password: 
+              type: string
+          required:
+            - username
+            - password
+      responses:
+        200:
+          description: "Login successfull"
+          schema:
+            $ref: "#/definitions/User"
+  /logout: 
+    ##### Login #####
+    get:
+      operationId: controllers.user.logout
+      tags:
+        - Login && Logout
+      summary: Logout
+      description: Logout
+      responses:
+        200:
+          description: "Logout successfull"
+  /user:
+    ##### USER - GET #####
+    get:
+      operationId: controllers.user.get_all_user
+      tags:
+        - User
+      summary: Get all list user
+      description: Get all list user
+      parameters:
+      - name: page_number
+        in: query
+        description: page number for pagination
+        type: integer
+        required: False
+      - name: page_size
+        in: query
+        description: page size for pagination
+        type: integer
+        required: False
+      responses:
+        200:
+          description: "Successful get list users"
+          schema:
+            type: array
+            items: 
+              $ref: "#/definitions/User"
+
+    ##### USER - POST #####
+    post:
+      operationId: controllers.user.create
+      tags:
+        - User
+      summary: Create a new user
+      description: Create a new user
+      parameters:
+        - name: user
+          in: body
+          description: personal infomation
+          required: True
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: Successfully created person
+          schema:
+            $ref: "#/definitions/User"
+
+    ##### USER - UPDATE #####
+    put:
+      operationId: controllers.user.update
+      tags:
+        - User
+      summary: Update an exist user
+      description: Create an exist user
+      parameters:
+        - name: user
+          in: body
+          description: personal infomation
+          required: True
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: Successfully created person
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+
+  /user/{id}:
+    get:
+      operationId: controllers.user.get_one
+      tags:
+        - User
+      summary: Get one user by id
+      description: Get one user by id
+      parameters:
+        - name: id
+          in: path
+          description: Id of the user to get
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully read user from data operation
+          schema:
+            $ref: "#/definitions/User"
+    
+    delete: 
+      operationId: controllers.user.delete
+      tags:
+        - User
+      summary: Delete user by id
+      description:  Delete user by id
+      parameters:
+        - name: id
+          in: path
+          description: Id of the user to delete
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully delete user
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+
+  /resource:
+    ##### resource - GET #####
+    put:
+      operationId: controllers.resource.get_all_resource
+      tags:
+        - Resource
+      summary: Get all resource of user
+      description: GGet all resource of user
+      parameters:
+        - name: account
+          in: body
+          description: account
+          required: True
+          schema:
+            type: object
+            properties:
+              username:         
+                type: string
+              password: 
+                type: string
+            required:
+              - username
+              - password
+      responses:
+        200:
+          description: "Successful get list users"
+
+
+############################# DATABASE MODEL ########################################
+definitions:
+  
+  ###### USER ######
+  User:
+    type: object
+    properties:
+      address: 
+        type: string
+        description: address of user
+      date_of_bird: 
+        type: string
+        description: date of birdss
+      full_name:
+        type: string
+        description: full name
+      id: 
+        type: integer
+        description: user id
+      id_manager:
+        type: integer
+        description: manager id
+      phone: 
+        type: string
+        description: phone number
+      role: 
+        type: string
+        enum: 
+        - admin
+        - manager
+        - employee
+        description: role of user
+      username: 
+        type: string
+        description: username when login
+
+  Resource: 
+    type: object
+    properties:
+      id_resource: 
+        type: integer
+        description: id resource
+      table_name: 
+        type: string
+        description: name of table to mapping
+      id_table_mapping: 
+        type: integer
+        description: id want to mapping
+      role:
+        type: string
+        enum: 
+        - admin
+        - manager
+        - employee
+        description: role of user
