@@ -39,7 +39,10 @@ paths:
         200:
           description: "Login successfull"
           schema:
-            $ref: "#/definitions/User"
+            type: array
+            items:
+              $ref: "#/definitions/User"
+
   /logout: 
     ##### Login #####
     get:
@@ -51,6 +54,7 @@ paths:
       responses:
         200:
           description: "Logout successfull"
+
   /user:
     ##### USER - GET #####
     get:
@@ -120,18 +124,18 @@ paths:
             items:
               $ref: "#/definitions/User"
 
-  /user/{id}:
+  /user/{username}:
     get:
       operationId: controllers.user.get_one
       tags:
         - User
       summary: Get one user by id
-      description: Get one user by id
+      description: Get one user by username
       parameters:
-        - name: id
+        - name: username
           in: path
           description: Id of the user to get
-          type: integer
+          type: string
           required: True
       responses:
         200:
@@ -143,10 +147,10 @@ paths:
       operationId: controllers.user.delete
       tags:
         - User
-      summary: Delete user by id
-      description:  Delete user by id
+      summary: Delete user by username
+      description:  Delete user by username
       parameters:
-        - name: id
+        - name: username
           in: path
           description: Id of the user to delete
           type: integer
@@ -187,31 +191,44 @@ paths:
           description: "Successful get list users"
 
 
+  /tree_user/{id}:
+    get:
+      operationId: controllers.user.tree_user
+      tags:
+        - User
+      summary: Get user tree
+      description: Get user tree
+      parameters:
+        - name: id
+          in: path
+          description: Id of the user to get all sub user
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successfully get tree user
+
+
 ############################# DATABASE MODEL ########################################
 definitions:
-  
-  ###### USER ######
   User:
     type: object
     properties:
-      address: 
-        type: string
-        description: address of user
-      date_of_bird: 
-        type: string
-        description: date of birdss
-      full_name:
-        type: string
-        description: full name
-      id: 
+      # user_id: 
+      #   type: integer
+      #   description: id user
+      superior_id:
         type: integer
-        description: user id
-      id_manager:
-        type: integer
-        description: manager id
-      phone: 
+        description: id of manager
+      username:
         type: string
-        description: phone number
+        description: user name
+      password:
+        type: string
+        description: password
+      fullname: 
+        type: string
+        description: fullname
       role: 
         type: string
         enum: 
@@ -219,10 +236,18 @@ definitions:
         - manager
         - employee
         description: role of user
-      username: 
+      dob:
         type: string
-        description: username when login
-
+        description: date of bird
+        # pattern: '([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))'
+      address:
+        type: string
+        description: address
+      phonenumber:
+        type: string
+        description: phone
+      email:
+        type: string
   Resource: 
     type: object
     properties:

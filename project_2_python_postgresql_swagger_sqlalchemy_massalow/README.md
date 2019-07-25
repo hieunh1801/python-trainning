@@ -29,3 +29,12 @@
 - Step 1: Login và trả về token để xác thực user là thằng nào
 - Step 2: Tài nguyên: lấy ra tài nguyên đang sở hữu <Ảnh, Video>
 - Step 3: Xem tài nguyên của thằng khác: - Xem được của người dưới cấp, cùng cấp nếu có quyền share
+
+### How to start Project
+
+- Step 1: Tạo database trong PostgreSQL
+    - Tạo một DB mới trong PGAdmin4
+    - Copy pase lệnh trong __database/database.sql__ và chạy
+- Step 2: Sửa chuỗi kết nối tới SQL trong file __config.py__
+- Step 2: Chạy project
+    - __python server.py__
